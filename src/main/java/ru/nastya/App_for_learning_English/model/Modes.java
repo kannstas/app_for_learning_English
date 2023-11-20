@@ -20,6 +20,8 @@ public class Modes {
     private List<String> russianWords = new ArrayList<>();
     private Map<WordKey, Result> wordKeyToResultMap = new HashMap<>();
 
+    private Map <String, String> englishAndRussianWordsAreKeysInMap = new HashMap<>();
+
     static Random random = new Random();
 
     private Scores scores = new Scores();
@@ -31,6 +33,7 @@ public class Modes {
 
     public void choice() throws IOException {
         fileInMap();
+        searchRightWordInFile();
         checkWord(askSettings());
     }
 
@@ -80,6 +83,23 @@ public class Modes {
 
     }
 
+
+
+    private void searchRightWordInFile () {
+        Path path = Paths.get("src/main/resources/checkingWords.txt");
+        try {
+            Stream <String> lines = Files.lines(path);
+            lines.forEach(word -> {
+                String [] words = word.split(",");
+                englishAndRussianWordsAreKeysInMap.put(words[0], words[1]);
+            });
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void checkWord(Settings settings) {
         int points = 0;
 
@@ -94,7 +114,7 @@ public class Modes {
             Result result = wordKeyToResultMap.get(new WordKey(userAnswer, wordToLearn));
             if (result == null) {
                 System.out.println("Не верно");
-               // System.out.println("Верный ответ " + wordKeyToResultMap.get(new WordKey(wordToLearn, ))); //???????????????????
+                System.out.println("Верный ответ: " + englishAndRussianWordsAreKeysInMap.get(wordToLearn));
             } else {
                 //добавить количество успешных попыток
                 //  System.out.println(result.successLearnsNumber().getAndIncrement());
@@ -111,22 +131,5 @@ public class Modes {
 
     }
 
-    public WordKey getTheKey(Map<WordKey, Result> map, String string) {
-        WordKey key = null;
-        for (Map.Entry<WordKey, Result> entry : map.entrySet()) {
-            if (entry.getKey().equals(string)) {
-                key = entry.getKey();
-            }
-        }
-        return key;
-    }
 }
 
-
-
-/*
- for (Map.Entry<WordKey, Result> entry : map.entrySet()) {
-            if (entry.getKey().equals(string)) {
-                string = String.valueOf(entry.getKey());
-            }
- */
