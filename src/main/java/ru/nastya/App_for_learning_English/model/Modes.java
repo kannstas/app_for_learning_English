@@ -3,6 +3,7 @@ package ru.nastya.App_for_learning_English.model;
 import org.springframework.stereotype.Component;
 import ru.nastya.App_for_learning_English.enumeration.LearnMode;
 import ru.nastya.App_for_learning_English.service.Console;
+import ru.nastya.App_for_learning_English.service.Controller;
 
 
 import java.io.IOException;
@@ -28,31 +29,36 @@ public class Modes {
 
     private Console console = new Console();
 
+    private Controller controller = new Controller();
+
     private User user = new User(new String(), new Scores());
+
+    static Scanner in = new Scanner(System.in);
 
 
     public void choice() throws IOException {
         fileInMap();
         searchRightWordInFile();
-        checkWord(askSettings());
+        checkWord(console.askSettings()); // можно попытаться с помощью if менять методы
+        // в зависимости от того, чем пользуется пользователь (консолью или браузером)
+        // checkWord(askSettingsController())
     }
 
-
-    private Settings askSettings() {
-
-        console.showText("Введите количество слов для изучения");
-        String wordsToLearn = console.acceptResponseFromConsole();
-
+    /*
+    private Settings askSettingsConsole() {
+        console.askSettings();
         console.showText("Выберете режим \n" +
                 "1. %s \n" +
                 "2. %s \n", "Перевод русских слов на английский язык", "Перевод английских слов на русский язык");
-
         return switch (console.acceptResponseFromConsole()) {
-            case "1" -> new Settings(wordsToLearn, LearnMode.FIRST_ENGLISH);
-            case "2" -> new Settings(wordsToLearn, LearnMode.FIRST_RUSSIAN);
+            case "1" -> new Settings(console.askSettings(), LearnMode.FIRST_ENGLISH);
+            case "2" -> new Settings(console.askSettings(), LearnMode.FIRST_RUSSIAN);
             default -> throw new IllegalStateException("Unacceptable mode");
         };
     }
+
+     */
+    //private Settings askSettingsController () {}
 
 
     private List<String> resolveDictionary(LearnMode mode) {
@@ -109,8 +115,7 @@ public class Modes {
 
             console.showText("Введите слово %s на %s%n", wordToLearn, settings.mode().getLangName());
 
-            String userAnswer = console.acceptResponseFromConsole();
-
+            String userAnswer = in.nextLine();
             Result result = wordKeyToResultMap.get(new WordKey(userAnswer, wordToLearn));
             if (result == null) {
                 System.out.println("Не верно");

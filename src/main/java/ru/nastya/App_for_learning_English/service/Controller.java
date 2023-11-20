@@ -9,18 +9,35 @@ import ru.nastya.App_for_learning_English.model.Modes;
 import ru.nastya.App_for_learning_English.model.Settings;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 @Component
 public class Controller {
 
-    private final Modes modes;
+    private Modes modes;
+
+    Scanner in = new Scanner (System.in);
+
+    public Controller () {
+    }
 
     public Controller(Modes modes) {
         this.modes = modes;
     }
 
+
+    public void askSettings() {
+
+        System.out.println("Введите количество слов для изучения");
+        String wordsToLearn = in.nextLine();
+        System.out.printf("Выберете режим \n" +
+                "1. %s \n" +
+                "2. %s \n", "Перевод русских слов на английский язык", "Перевод английских слов на русский язык");
+
+    }
+
     @GetMapping("/learn")
-    public String choice(Model model) throws IOException {
+    public String choice() throws IOException {
 //        model.addAttribute("choice", modes.choice());
         return "/dictionary/choiceMode";
 
