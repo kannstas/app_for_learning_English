@@ -6,3 +6,5 @@ import java.util.concurrent.atomic.AtomicInteger;
 public record Result (boolean isLearned, AtomicInteger successLearnsNumber) {
     }
 
+
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>New Settings</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/learn}" th:object="${settings}">
+
+   <p> <label for="wordsToLearn">Введите количество слов для изучения: </label>
+    <input type="text" th:field="*{wordsToLearn}" id="wordsToLearn"/>
+
+
+
+    <p> <label>Выберите режим: </label>
+    <input type="text" th:field="*{mode}" id="mode"/>
+
+    <p th:text="FIRST_ENGLISH">1. Перевод русских слов на английский язык</p>
+    <p th:text="FIRST_RUSSIAN">2. Перевод английских слов на русский язык</p>
+
+
+    <br/>
+    <input type="submit" value="Далее!"/>
+</form>
+</body>
+</html>

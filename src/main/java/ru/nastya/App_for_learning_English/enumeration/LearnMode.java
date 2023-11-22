@@ -10,7 +10,12 @@ public enum LearnMode {
         this.langName = langName;
     }
 
+
     public String getLangName() {
         return langName;
+    }
+
+    public void setLangName(String langName) {
+        this.langName = langName;
     }
 }

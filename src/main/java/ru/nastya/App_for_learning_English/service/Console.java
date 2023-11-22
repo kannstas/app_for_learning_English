@@ -11,6 +11,7 @@ public class Console {
 
 
     public Settings askSettings() {
+
         showText("Введите количество слов для изучения");
         String wordsToLearn = acceptResponseFromConsole();
         showText("Выберете режим \n" +

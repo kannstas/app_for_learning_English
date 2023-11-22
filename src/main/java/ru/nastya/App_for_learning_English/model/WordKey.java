@@ -24,3 +24,4 @@ public record WordKey(String firstWord, String secondWord) {
 
     }
 }
+
